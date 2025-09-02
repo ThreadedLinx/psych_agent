@@ -1,0 +1,23 @@
+[project]
+name = "agentic_rag_psychological_diagnostics_treatment_planning_system"
+version = "0.1.0"
+description = "agentic_rag_psychological_diagnostics_treatment_planning_system using crewAI"
+authors = [{ name = "Your Name", email = "you@example.com" }]
+requires-python = ">=3.10,<3.14"
+dependencies = [
+    "crewai[tools]>=0.150.0,<1.0.0"
+]
+
+[project.scripts]
+agentic_rag_psychological_diagnostics_treatment_planning_system = "agentic_rag_psychological_diagnostics_treatment_planning_system.main:run"
+run_crew = "agentic_rag_psychological_diagnostics_treatment_planning_system.main:run"
+train = "agentic_rag_psychological_diagnostics_treatment_planning_system.main:train"
+replay = "agentic_rag_psychological_diagnostics_treatment_planning_system.main:replay"
+test = "agentic_rag_psychological_diagnostics_treatment_planning_system.main:test"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.crewai]
+type = "crew"

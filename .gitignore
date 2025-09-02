@@ -1,0 +1,18 @@
+.env
+__pycache__/
+.DS_Store
+
+# Patient data and memory storage
+patient_data/
+*.db
+*.sqlite
+*.sqlite3
+
+# CrewAI memory storage
+.chroma/
+chroma_db/
+memory_storage/
+
+# Backup files
+*.bak
+*.backup
