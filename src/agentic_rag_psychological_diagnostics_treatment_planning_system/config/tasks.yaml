@@ -1,70 +1,97 @@
 ---
-interactive_diagnostic_assessment_process:
-  description: "Conduct a comprehensive, conversational diagnostic assessment following
-    these 6 predefined steps. IMPORTANT: Each step requires multiple interactions
-    with the user until YOU determine sufficient information has been gathered. Only
-    then announce moving to the next step.\n\n**Step 1: Symptom Assessment**\n- Engage
-    in detailed conversation about {patient_concerns}  \n- Ask follow-up questions
-    about specific symptoms, severity, frequency, triggers\n- Continue questioning
-    until you have comprehensive symptom profile\n- When satisfied, announce: \"I
-    have sufficient information about your symptoms. Moving to Step 2: Duration Assessment.\"\n\n**Step
-    2: Duration and Temporal Patterns**  \n- Ask detailed questions about when symptoms
-    started, how they've changed over time\n- Explore patterns, cycles, episodic vs
-    continuous nature\n- Continue until temporal picture is complete\n- When satisfied,
-    announce: \"I have sufficient information about symptom duration and patterns.
-    Moving to Step 3: Functional Impact Assessment.\"\n\n**Step 3: Functional Impact
-    on Mental Well-Being**\n- Explore how symptoms affect daily life, relationships,
-    work, self-care, quality of life\n- Ask about coping strategies, support systems,
-    impact severity\n- Continue until functional assessment is comprehensive  \n-
-    When satisfied, announce: \"I have sufficient information about functional impact.
-    Moving to Step 4: Diagnosis.\"\n\n**Step 4: Clinical Diagnosis**\n- Use gathered
-    information to formulate diagnosis using DSM-5 criteria\n- Research current evidence-based
-    diagnostic guidelines\n- Present preliminary diagnosis with rationale\n- When
-    complete, announce: \"Diagnosis established. Moving to Step 5: Treatment Options.\"\n\n**Step
-    5: Treatment Options Presentation**\n- Research and present 3 evidence-based treatment
-    options\n- Explain each option's approach, duration, outcomes, considerations\n-
-    WAIT for user to select preferred treatment option\n- When selection made, announce:
-    \"Treatment option selected. Moving to Step 6: Treatment Plan Development.\"\n\n**Step
-    6 is handled separately by Treatment Plan Writer**\n\nCRITICAL: Stay in conversation
-    within each step until YOU determine information is sufficient. Ask clarifying
-    questions, probe for details, ensure thoroughness before advancing."
-  expected_output: A comprehensive diagnostic assessment report documenting all gathered
-    information across Steps 1-5, including complete symptom profile, temporal patterns,
-    functional impact assessment, clinical diagnosis with rationale, and user's selected
-    treatment option. Format in markdown with clear sections for each step and transition
-    announcements.
+conversational_message_response:
+  description: "Respond to the user's current message as part of an ongoing psychological
+    diagnostic conversation. You are in Step {current_step} of a 6-step assessment process.
+
+    CONVERSATION CONTEXT:
+    {conversation_context}
+
+    USER'S CURRENT MESSAGE:
+    {user_message}
+
+    **CRITICAL INSTRUCTIONS:**
+    1. NEVER ask questions about information already collected (shown in 'Information Already Collected' section)
+    2. When you have sufficient information for the current step (indicated by ✓), state 'Step X complete, moving to Step Y' in your response
+    3. Do NOT repeat questions the user has already answered - acknowledge their answers instead
+    4. If the user says they already answered something, apologize and move forward with new questions
+
+    YOUR RESPONSE SHOULD:
+    1. Acknowledge and respond to the user's specific message
+    2. Ask NEW follow-up questions for the current diagnostic step (avoid duplicates!)
+    3. Use PDFSearchTool to reference clinical information when needed
+    4. When step is complete, explicitly state: 'Step [X] complete, moving to Step [Y]'
+    5. Maintain professional, empathetic tone throughout
+
+    STEP-SPECIFIC GUIDELINES:
+
+    **If Step 1 (Symptom Assessment):**
+    - Ask about symptoms NOT already collected
+    - If severity, triggers, and symptoms are collected, move to Step 2
+    - Acknowledge information already provided before asking new questions
+
+    **If Step 2 (Duration/Temporal Patterns):**
+    - Focus on timeline: When did symptoms start? How long have they persisted?
+    - Explore pattern: Are symptoms episodic or continuous?
+    - Once duration and pattern are clear, state 'Step 2 complete, moving to Step 3'
+
+    **If Step 3 (Functional Impact):**
+    - Assess impact on work, relationships, and daily activities
+    - Explore how symptoms affect quality of life
+    - Once impact is documented, state 'Step 3 complete, moving to Step 4'
+
+    **If Step 4 (Diagnosis):**
+    - Use PDFSearchTool to research diagnostic criteria
+    - Present diagnosis with clear rationale
+    - State 'Step 4 complete, moving to Step 5' after diagnosis
+
+    **If Step 5 (Treatment Options):**
+    - Research and present 3 evidence-based treatment options
+    - Explain each option clearly
+    - Ask for patient's preference
+    - State 'Step 5 complete, moving to Step 6' after selection
+
+    **If Step 6 (Treatment Plan):**
+    - Create comprehensive treatment plan using PDFSearchTool
+    - Format as organized, professional document
+    - Present complete plan to patient
+
+    Remember: Check the context for what's already collected and only ask about missing information!"
+  expected_output: A natural, conversational response that addresses the user's message,
+    asks appropriate follow-up questions for the current diagnostic step, and guides
+    the assessment process forward. The response should be empathetic, professional,
+    and clinically appropriate.
   agent: conversational_diagnostic_coordinator
-professional_treatment_plan_creation:
-  description: "**FIRST: Use the PDFSearchTool to search the knowledge base to understand
-    the exact format, structure, and content requirements for treatment plans.**\n\n**Essential
-    Resources to Reference:**\n1. Treatment Plan Guidelines for formatting and structure\n2.
-    Communication Standards for professional patient-provider interaction\n3. CBT or
-    DBT protocols based on selected treatment approach\n4. DSM-5 criteria for diagnostic
-    accuracy\n5. Outcome Measures for progress tracking\n\nUsing the comprehensive
-    diagnostic assessment and selected treatment option from the previous task, create
-    a detailed, professional treatment plan that follows the EXACT format specified
-    in your knowledge base. The treatment plan should be formatted in markdown and
-    include all sections as specified in the Standard Treatment Plan Guidelines.\n\n**Required
-    Research:**\n1. Search knowledge base for \"treatment plan format\" or \"treatment
-    plan structure\" \n2. Search knowledge base for \"communication standards\" to
-    ensure professional language\n3. Search knowledge base for specific evidence-based
-    protocols (CBT or DBT)\n4. Search web for current best practices for the specific
-    condition and treatment approach\n\n**Ensure the plan includes all required sections
-    as specified in your knowledge base, such as:**\n- Patient Information & Diagnosis\n-
-    Treatment Goals (Short-term and Long-term SMART goals)\n- Treatment Approach &
-    Therapeutic Modality (CBT, DBT, or other)\n- Session Structure & Frequency\n-
-    Specific Interventions & Techniques\n- Homework/Between-Session Activities\n-
-    Progress Monitoring & Assessment Tools\n- Outcome Measures & Success Metrics\n-
-    Communication Standards & Patient Engagement Guidelines\n- Timeline, Milestones
-    & Treatment Phases\n- Discharge Planning & Relapse Prevention\n\n**The final treatment
-    plan must:**\n- Follow the EXACT formatting from your knowledge base\n- Incorporate
-    professional communication standards\n- Use evidence-based treatment protocols
-    (CBT/DBT)\n- Be immediately implementable by clinicians\n- Meet professional clinical
-    standards\n- Be ready for download and patient reference"
-  expected_output: A comprehensive, professional treatment plan in markdown format
-    that follows Standard Treatment Plan Guidelines. The document should be detailed
-    enough for clinical implementation, include all required sections, and be formatted
-    for professional use and patient reference. Ready for download and immediate use.
-  agent: treatment_plan_writer
-  context:
-  - interactive_diagnostic_assessment_process
+# professional_treatment_plan_creation:
+#   description: "**FIRST: Use the PDFSearchTool to search the knowledge base to understand
+#     the exact format, structure, and content requirements for treatment plans.**\n\n**Essential
+#     Resources to Reference:**\n1. Treatment Plan Guidelines for formatting and structure\n2.
+#     Communication Standards for professional patient-provider interaction\n3. CBT or
+#     DBT protocols based on selected treatment approach\n4. DSM-5 criteria for diagnostic
+#     accuracy\n5. Outcome Measures for progress tracking\n\nUsing the comprehensive
+#     diagnostic assessment and selected treatment option from the previous task, create
+#     a detailed, professional treatment plan that follows the EXACT format specified
+#     in your knowledge base. The treatment plan should be formatted in markdown and
+#     include all sections as specified in the Standard Treatment Plan Guidelines.\n\n**Required
+#     Research:**\n1. Search knowledge base for \"treatment plan format\" or \"treatment
+#     plan structure\" \n2. Search knowledge base for \"communication standards\" to
+#     ensure professional language\n3. Search knowledge base for specific evidence-based
+#     protocols (CBT or DBT)\n4. Search web for current best practices for the specific
+#     condition and treatment approach\n\n**Ensure the plan includes all required sections
+#     as specified in your knowledge base, such as:**\n- Patient Information & Diagnosis\n-
+#     Treatment Goals (Short-term and Long-term SMART goals)\n- Treatment Approach &
+#     Therapeutic Modality (CBT, DBT, or other)\n- Session Structure & Frequency\n-
+#     Specific Interventions & Techniques\n- Homework/Between-Session Activities\n-
+#     Progress Monitoring & Assessment Tools\n- Outcome Measures & Success Metrics\n-
+#     Communication Standards & Patient Engagement Guidelines\n- Timeline, Milestones
+#     & Treatment Phases\n- Discharge Planning & Relapse Prevention\n\n**The final treatment
+#     plan must:**\n- Follow the EXACT formatting from your knowledge base\n- Incorporate
+#     professional communication standards\n- Use evidence-based treatment protocols
+#     (CBT/DBT)\n- Be immediately implementable by clinicians\n- Meet professional clinical
+#     standards\n- Be ready for download and patient reference"
+#   expected_output: A comprehensive, professional treatment plan in markdown format
+#     that follows Standard Treatment Plan Guidelines. The document should be detailed
+#     enough for clinical implementation, include all required sections, and be formatted
+#     for professional use and patient reference. Ready for download and immediate use.
+#   agent: treatment_plan_writer
+#   context:
+#   - conversational_message_response

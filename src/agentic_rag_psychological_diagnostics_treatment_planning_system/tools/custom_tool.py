@@ -1,6 +1,23 @@
-from crewai.tools import BaseTool
+from crewai.tools import BaseTool, tool
 from typing import Type
 from pydantic import BaseModel, Field
+
+
+@tool("Ask Human follow up questions")
+def ask_human(question: str) -> str:
+    """
+    Ask human follow up questions during diagnostic interview.
+    Use this tool to gather information from the patient throughout the diagnostic process.
+    
+    Args:
+        question (str): The question to ask the human/patient
+        
+    Returns:
+        str: The human's response to the question
+    """
+    print(f"\n🔹 {question}")
+    response = input("> ")
+    return response
 
 
 class MyCustomToolInput(BaseModel):

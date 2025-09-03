@@ -13,21 +13,27 @@ def run():
     """
     print("\n=== Agentic Psychological Diagnostics & Treatment Planning System ===\n")
     
-    # Get patient concerns from user
-    print("Please describe the patient's primary concerns and symptoms:")
-    patient_concerns = input("> ").strip()
+    print("Welcome! I'm here to conduct a comprehensive psychological assessment.")
+    print("This will be an interactive conversation where I'll ask you questions to understand your concerns.\n")
     
-    if not patient_concerns:
-        patient_concerns = "General psychological assessment requested"
+    # Get basic patient information
+    print("To get started, could you please share your name and initial concerns?")
+    initial_input = input("> ").strip()
     
-    # Initial inputs - the diagnostic coordinator will determine condition and treatment
+    if not initial_input:
+        initial_input = "Patient requested general psychological assessment"
+    
+    # Simple inputs - the agent will conduct the full interactive assessment
     inputs = {
-        'patient_concerns': patient_concerns,
-        'diagnosed_condition': 'To be determined through assessment',
-        'selected_treatment_option': 'To be selected after diagnosis'
+        'patient_concerns': initial_input,
+        'diagnosed_condition': 'To be determined through interactive assessment',
+        'selected_treatment_option': 'To be selected through patient interaction'
     }
     
-    print("\nStarting diagnostic assessment process...\n")
+    print("\n" + "="*60)
+    print("STARTING INTERACTIVE DIAGNOSTIC ASSESSMENT")
+    print("="*60 + "\n")
+    
     AgenticRagPsychologicalDiagnosticsTreatmentPlanningSystemCrew().crew().kickoff(inputs=inputs)
 
 
